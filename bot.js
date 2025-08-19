@@ -4,7 +4,7 @@ const express = require('express');
 const moment = require('moment-timezone');
 
 // ---------- CONFIG ----------
-const TELEGRAM_BOT_TOKEN = process.env.TELEGRAM_BOT_TOKEN || '8242504126:AAG-DGjS6HMihOXchcuIFGORqWHJhE9Luxg';
+const TELEGRAM_BOT_TOKEN = process.env.TELEGRAM_BOT_TOKEN || '8493857966:AAHuSEYiAncnUoM2x4I3nDxgw06Y092u2n0';
 const CMC_API_KEY = process.env.CMC_API_KEY || 'd0fb14c7-6905-4d42-8aa8-0558bfaea824';
 const WEBHOOK_URL = process.env.WEBHOOK_URL || 'https://new-test-bot-2hjw.onrender.com';
 const PORT = process.env.PORT || 3000;
@@ -189,4 +189,5 @@ app.listen(PORT, async () => {
   console.log(`Server running on port ${PORT}`);
   await bot.telegram.setWebhook(`${WEBHOOK_URL}/`);
   console.log('Webhook set:', `${WEBHOOK_URL}/`);
+
 });
