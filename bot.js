@@ -6,7 +6,7 @@ const moment = require('moment-timezone');
 // ---------- CONFIG ----------
 const TELEGRAM_BOT_TOKEN = process.env.TELEGRAM_BOT_TOKEN || '8493857966:AAFWtkHaHt_a2AIBWU8lRZlAUKh-E8QTUyE';
 const CMC_API_KEY = process.env.CMC_API_KEY || 'd0fb14c7-6905-4d42-8aa8-0558bfaea824';
-const WEBHOOK_URL = process.env.WEBHOOK_URL || 'https://new-test-bot-2hjw.onrender.com';
+const WEBHOOK_URL = process.env.WEBHOOK_URL || 'https://coinmarket-pfbb.onrender.com';
 const PORT = process.env.PORT || 3000;
 
 const CMC_BASE = 'https://pro-api.coinmarketcap.com/v1';
@@ -191,4 +191,5 @@ app.listen(PORT, async () => {
   console.log('Webhook set:', `${WEBHOOK_URL}/`);
 
 });
+
 
