@@ -1313,3 +1313,460 @@ def debug(*args):
 # ==========================================================
 # END OF HELPERS.PY
 # ==========================================================
+
+# ==========================================================
+# HELPERS.PY
+# PART 5
+# ADVANCED NUMERIC & CONFLUENCE HELPERS
+# ==========================================================
+
+# ==========================================================
+# SCORE UTILITIES
+# ==========================================================
+
+def score_percentage(value, maximum):
+
+    maximum = safe_float(maximum)
+
+    if maximum <= 0:
+        return 0.0
+
+    return clamp_score(
+        (safe_float(value) / maximum) * 100.0
+    )
+
+
+def inverse_score(score):
+
+    return clamp_score(100.0 - safe_float(score))
+
+
+# ==========================================================
+# WEIGHTED AVERAGE
+# ==========================================================
+
+def weighted_average(values, weights):
+
+    values = list(values)
+    weights = list(weights)
+
+    if len(values) != len(weights):
+        return 0.0
+
+    total_weight = sum(
+        safe_float(w) for w in weights
+    )
+
+    if total_weight <= 0:
+        return 0.0
+
+    weighted_sum = sum(
+        safe_float(v) * safe_float(w)
+        for v, w in zip(values, weights)
+    )
+
+    return weighted_sum / total_weight
+
+
+# ==========================================================
+# SCORE AGREEMENT
+# ==========================================================
+
+def agreement_score(scores, threshold=60):
+
+    scores = [
+        clamp_score(s)
+        for s in scores
+        if s is not None
+    ]
+
+    if not scores:
+        return 0
+
+    return sum(
+        1 for s in scores
+        if s >= threshold
+    )
+
+
+# ==========================================================
+# CONFLUENCE
+# ==========================================================
+
+def confluence_counter(conditions):
+
+    return sum(
+        1 for c in conditions
+        if bool(c)
+    )
+
+
+def confluence_percentage(conditions):
+
+    total = len(conditions)
+
+    if total == 0:
+        return 0.0
+
+    count = confluence_counter(conditions)
+
+    return round(
+        (count / total) * 100.0,
+        2
+    )
+
+
+# ==========================================================
+# BIAS HELPERS
+# ==========================================================
+
+def bullish_percentage(bullish, total):
+
+    return score_percentage(
+        bullish,
+        total
+    )
+
+
+def bearish_percentage(bearish, total):
+
+    return score_percentage(
+        bearish,
+        total
+    )
+
+
+def dominant_bias(bullish, bearish):
+
+    bullish = safe_float(bullish)
+    bearish = safe_float(bearish)
+
+    if bullish > bearish:
+        return "BULLISH"
+
+    if bearish > bullish:
+        return "BEARISH"
+
+    return "NEUTRAL"
+
+
+# ==========================================================
+# STRENGTH CLASSIFICATION
+# ==========================================================
+
+def strength_label(score):
+
+    score = clamp_score(score)
+
+    if score >= 90:
+        return "EXTREME"
+
+    if score >= 75:
+        return "VERY_STRONG"
+
+    if score >= 60:
+        return "STRONG"
+
+    if score >= 40:
+        return "MODERATE"
+
+    if score >= 20:
+        return "WEAK"
+
+    return "VERY_WEAK"
+
+
+# ==========================================================
+# PROBABILITY HELPERS
+# ==========================================================
+
+def probability_from_score(score):
+
+    return clamp_score(score)
+
+
+def probability_band(score):
+
+    score = clamp_score(score)
+
+    if score >= 80:
+        return "HIGH"
+
+    if score >= 60:
+        return "MEDIUM"
+
+    if score >= 40:
+        return "LOW"
+
+    return "VERY_LOW"
+
+
+# ==========================================================
+# END OF HELPERS.PY PART 5
+# ==========================================================
+
+# ==========================================================
+# HELPERS.PY
+# PART 6 (FINAL)
+# INSTITUTIONAL HELPERS
+# ==========================================================
+
+# ==========================================================
+# BIAS HELPERS
+# ==========================================================
+
+def institutional_bias(score):
+
+    score = clamp_score(score)
+
+    if score >= 85:
+        return "STRONG_BULLISH"
+
+    if score >= 65:
+        return "BULLISH"
+
+    if score >= 35:
+        return "NEUTRAL"
+
+    if score >= 15:
+        return "BEARISH"
+
+    return "STRONG_BEARISH"
+
+
+# ==========================================================
+# MARKET HEALTH
+# ==========================================================
+
+def market_health_label(score):
+
+    score = clamp_score(score)
+
+    if score >= 85:
+        return "EXCELLENT"
+
+    if score >= 70:
+        return "GOOD"
+
+    if score >= 50:
+        return "NORMAL"
+
+    if score >= 30:
+        return "WEAK"
+
+    return "VERY_WEAK"
+
+
+# ==========================================================
+# ENTRY QUALITY
+# ==========================================================
+
+def entry_quality_label(score):
+
+    score = clamp_score(score)
+
+    if score >= 90:
+        return "A+"
+
+    if score >= 80:
+        return "A"
+
+    if score >= 70:
+        return "B"
+
+    if score >= 60:
+        return "C"
+
+    return "POOR"
+
+
+# ==========================================================
+# EXIT QUALITY
+# ==========================================================
+
+def exit_quality_label(score):
+
+    return entry_quality_label(score)
+
+
+# ==========================================================
+# SUPPORT / RESISTANCE RATING
+# ==========================================================
+
+def level_strength_label(score):
+
+    score = clamp_score(score)
+
+    if score >= 80:
+        return "VERY_STRONG"
+
+    if score >= 60:
+        return "STRONG"
+
+    if score >= 40:
+        return "MODERATE"
+
+    if score >= 20:
+        return "WEAK"
+
+    return "VERY_WEAK"
+
+
+# ==========================================================
+# VOLATILITY RATING
+# ==========================================================
+
+def volatility_label(score):
+
+    score = clamp_score(score)
+
+    if score >= 80:
+        return "EXTREME"
+
+    if score >= 60:
+        return "HIGH"
+
+    if score >= 40:
+        return "NORMAL"
+
+    if score >= 20:
+        return "LOW"
+
+    return "VERY_LOW"
+
+
+# ==========================================================
+# CONFIDENCE LABEL
+# ==========================================================
+
+def confidence_label(score):
+
+    score = clamp_score(score)
+
+    if score >= 90:
+        return "VERY_HIGH"
+
+    if score >= 75:
+        return "HIGH"
+
+    if score >= 60:
+        return "GOOD"
+
+    if score >= 45:
+        return "AVERAGE"
+
+    return "LOW"
+
+
+# ==========================================================
+# SCORE SUMMARY
+# ==========================================================
+
+def score_summary(score):
+
+    score = clamp_score(score)
+
+    return {
+
+        "score": round(score, 2),
+
+        "bias": institutional_bias(score),
+
+        "rating": score_rating(score),
+
+        "strength": strength_label(score),
+
+        "confidence": confidence_label(score)
+
+    }
+
+
+# ==========================================================
+# DATA QUALITY
+# ==========================================================
+
+def data_quality(df):
+
+    if df is None:
+
+        return 0.0
+
+    total = len(df)
+
+    if total == 0:
+
+        return 0.0
+
+    missing = df.isna().sum().sum()
+
+    cells = df.shape[0] * df.shape[1]
+
+    quality = (
+
+        1 -
+
+        safe_divide(
+
+            missing,
+
+            cells
+
+        )
+
+    ) * 100
+
+    return clamp_score(quality)
+
+
+# ==========================================================
+# EMPTY RESULT
+# ==========================================================
+
+def empty_result():
+
+    return {
+
+        "success": False,
+
+        "score": 0.0,
+
+        "bias": "UNKNOWN"
+
+    }
+
+
+# ==========================================================
+# SUCCESS RESULT
+# ==========================================================
+
+def success_result(**kwargs):
+
+    result = {
+
+        "success": True
+
+    }
+
+    result.update(kwargs)
+
+    return result
+
+
+# ==========================================================
+# FAILURE RESULT
+# ==========================================================
+
+def failure_result(message="Unknown Error"):
+
+    return {
+
+        "success": False,
+
+        "message": message
+
+    }
+
+
+# ==========================================================
+# END OF HELPERS.PY
+# ==========================================================
